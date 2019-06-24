@@ -60,10 +60,9 @@ def create_app(config_name='default'):
     app.register_blueprint(users_bp, url_prefix="/users")
 
     from .authenticate import authentication_bp
-    app.register_blueprint(authentication_bp, prefix="/")
+    app.register_blueprint(authentication_bp, url_prefix="/api")
 
-
-    # a default page that says hello
+    # a default page that says hello with name
     @app.route('/hi/<name>')
     def hi_name(name):
         return 'Hello, {}!'.format(name)

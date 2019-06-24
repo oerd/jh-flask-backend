@@ -6,7 +6,7 @@ from . import authentication_bp as auth_bp
 from utils.web import request_wants_json
 
 
-@auth_bp.route('/api/authenticate', methods=['POST'])
+@auth_bp.route('/authenticate', methods=['POST'])
 def authenticate():
     """Authenticate a user."""
     if not request_wants_json():
