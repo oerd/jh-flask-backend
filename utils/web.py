@@ -5,12 +5,8 @@ import logging
 logger = logging.getLogger('sample_app')
 
 
-def request_wants_json(only_json=True):
+def request_wants_json(ignore_rest=True):
     best = request.accept_mimetypes .best_match(['application/json', 'text/html'])
-    print('Request best matches: %s' % (best,))
-    print('Request best: %s' % (request.accept_mimetypes[best],))
-    print('Request best: %s' % (request.accept_mimetypes['text/html'],))
-    print(request.accept_mimetypes)
-    if only_json:
+    if ignore_rest:
         return best == 'application/json'
     return best == 'application/json' and request.accept_mimetypes[best] > request.accept_mimetypes['text/html']
