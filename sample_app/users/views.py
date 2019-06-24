@@ -2,7 +2,7 @@ from flask import request, jsonify, current_app
 from werkzeug.exceptions import NotAcceptable, InternalServerError, BadRequest
 from utils.web import request_wants_json
 
-from . import bp
+from . import users_bp as bp
 from .models import User
 from .schema import UserSchema
 

@@ -1,12 +1,12 @@
-from flask import request, jsonify, current_app
-from werkzeug.exceptions import NotAcceptable, InternalServerError, BadRequest
-from flask_jwt_extended import jwt_required, create_access_token, get_jwt_identity
+from flask import request, jsonify
+from werkzeug.exceptions import NotAcceptable
+from flask_jwt_extended import create_access_token
 
-from . import bp
+from . import authentication_bp as auth_bp
 from utils.web import request_wants_json
 
 
-@bp.route('')
+@auth_bp.route('/api/authenticate', methods=['POST'])
 def authenticate():
     """Authenticate a user."""
     if not request_wants_json():
@@ -25,5 +25,5 @@ def authenticate():
     if username == 'user' and password == 'user':
         identity = {'sub': username, 'auth': 'ROLE_USER', "exp": 1563635440}
         access_token = create_access_token(identity=identity)
-
+        return jsonify(access_token=access_token), 200
 

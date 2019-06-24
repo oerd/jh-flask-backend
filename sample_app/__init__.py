@@ -56,8 +56,12 @@ def create_app(config_name='default'):
     cors.init_app(app, resources={r"/api/*": {"origins": "*"}})
 
     # register blueprints
-    from .users import bp as places_blueprint
-    app.register_blueprint(places_blueprint, url_prefix="/users")
+    from .users import users_bp
+    app.register_blueprint(users_bp, url_prefix="/users")
+
+    from .authenticate import authentication_bp
+    app.register_blueprint(authentication_bp, prefix="/")
+
 
     # a default page that says hello
     @app.route('/hi/<name>')
