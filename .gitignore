@@ -1,6 +1,9 @@
 *.py[cod]
 __pycache__/
 
+# dev databases
+data-dev.sqlite
+
 # C extensions
 *.so
 
