@@ -4,6 +4,7 @@ from flask_migrate import Migrate
 from flask_marshmallow import Marshmallow
 from flask_jwt_extended import JWTManager
 from flask_bcrypt import Bcrypt
+from flask_cors import CORS
 
 from config import config
 
@@ -31,6 +32,7 @@ migrate = Migrate()
 ma = Marshmallow()
 jwt = JWTManager()
 bc = Bcrypt()
+cors = CORS()
 
 
 def create_app(config_name='default'):
@@ -49,6 +51,9 @@ def create_app(config_name='default'):
 
     # create and init Bcrypt
     bc.init_app(app)
+
+    # fix CORS
+    cors.init_app(app, resources={r"/api/*": {"origins": "*"}})
 
     # register blueprints
     from .users import bp as places_blueprint
