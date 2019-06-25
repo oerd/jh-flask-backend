@@ -4,7 +4,7 @@ from sample_app import db, bc
 from utils.data import Model
 
 
-user_authority_table = db.Table("jhi_user_autority",
+user_authority_table = db.Table("jhi_user_authority",
                                 db.Column("user_id", db.BigInteger, db.ForeignKey('jhi_user.id'), nullable=False),
                                 db.Column("authority_name", db.String(50), db.ForeignKey('jhi_authority.name'), nullable=False),
                                 db.PrimaryKeyConstraint('user_id', 'authority_name'))
