@@ -53,13 +53,13 @@ def upgrade():
                                          )
 
     op.bulk_insert(jhi_authority, [
-        {'name': 'ROLE_ADMIN'},
-        {'name': 'ROLE_USER'}
+        {'id': 1, 'name': 'ROLE_ADMIN'},
+        {'id': 2, 'name': 'ROLE_USER'}
     ])
 
     op.bulk_insert(jhi_user, [
         {
-            'id': 1,
+            'uid': 1,
             'login': 'system',
             'password_hash': '$2a$10$mE.qmcV0mFU5NcKh73TZx.z4ueI/.bDWbj0T1BYyqP481kGGarKLG',
             'first_name': 'System',
@@ -71,7 +71,7 @@ def upgrade():
             'last_modified_by': 'system'
         },
         {
-            'id': 2,
+            'uid': 2,
             'login': 'anonymoususer',
             'password_hash': '$2a$10$j8S5d7Sr7.8VTOYNviDPOeWX8KcYILUVJBsYV83Y5NtECayypx9lO',
             'first_name': 'Anonymous',
@@ -83,7 +83,7 @@ def upgrade():
             'last_modified_by': 'system'
         },
         {
-            'id': 4,
+            'uid': 4,
             'login': 'user',
             'password_hash': '$2a$10$VEjxo0jq2YG9Rbk2HmX9S.k1uZBGYUHdUcid3g/vfiEl7lwWgOH/K',
             'first_name': 'User',
