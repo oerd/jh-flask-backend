@@ -24,7 +24,7 @@ def upgrade():
                                     )
 
     jhi_user = op.create_table('jhi_user',
-                               sa.Column('uid', sa.BigInteger(), nullable=False),
+                               sa.Column('uid', sa.Integer(), nullable=False, primary_key=True),
                                sa.Column('login', sa.String(length=50), nullable=False),
                                sa.Column('password_hash', sa.String(length=60), nullable=True),
                                sa.Column('first_name', sa.String(length=50), nullable=True),
@@ -40,7 +40,6 @@ def upgrade():
                                sa.Column('reset_date', sa.DateTime(), nullable=True),
                                sa.Column('last_modified_by', sa.String(length=50), nullable=True),
                                sa.Column('last_modified_date', sa.DateTime(), nullable=True),
-                               sa.PrimaryKeyConstraint('uid'),
                                sa.UniqueConstraint('login')
                                )
 
@@ -83,9 +82,21 @@ def upgrade():
             'last_modified_by': 'system'
         },
         {
+            'uid': 3,
+            'login': 'admin',
+            'password_hash': '$2b$10$pWJIG0aXlUFFS.DG/GFgRuCiiEiEXneu0iwS9/hL0j3gEpkO.MEFK',
+            'first_name': 'Admin',
+            'last_name': 'Istrator',
+            'email': 'admin@localhost',
+            'activated': True,
+            'lang_key': 'en',
+            'created_by': 'system',
+            'last_modified_by': 'system'
+        },
+        {
             'uid': 4,
             'login': 'user',
-            'password_hash': '$2a$10$VEjxo0jq2YG9Rbk2HmX9S.k1uZBGYUHdUcid3g/vfiEl7lwWgOH/K',
+            'password_hash': '$2b$10$As4/YX9hNHZtkUnwn5MuQeysvkdImTPMxbf14MBAxyWvYsvfZahPe',
             'first_name': 'User',
             'last_name': 'User',
             'email': 'user@localhost',

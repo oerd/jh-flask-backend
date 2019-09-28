@@ -13,7 +13,7 @@ user_authority_table = db.Table("jhi_user_authority",
 class User(Model):
     __tablename__ = 'jhi_user'
 
-    uid = db.Column(db.BigInteger, key="id", primary_key=True)
+    uid = db.Column(db.Integer, key="id", primary_key=True)
     login = db.Column("login", db.String(50), unique=True, nullable=False)  # TODO: have a validator regex for login!
     password = db.Column("password_hash", db.String(60))
     first_name = db.Column("first_name", db.String(50))
@@ -34,7 +34,7 @@ class User(Model):
 
     def __init__(self, login, password, first_name, last_name, email, activated=True, lang_key="en-US"):
         self.login = login
-        self.password = bc.generate_password_hash(password)
+        self.password = bc.generate_password_hash(password).decode('utf-8')
         self.first_name = first_name
         self.last_name = last_name
         self.email = email
@@ -42,8 +42,8 @@ class User(Model):
         self.lang_key = lang_key
         self.created_date = datetime.datetime.now()
 
-    def check_password(self, password_hash):
-        return bc.check_password_hash(self.password, password_hash)
+    def check_password(self, password):
+        return bc.check_password_hash(self.password, password)
 
 
 class UserAuthority(Model):
