@@ -1,10 +1,11 @@
 from flask import request, jsonify
-from werkzeug.exceptions import NotAcceptable
+from werkzeug.exceptions import NotAcceptable, InternalServerError
 from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity
 
 from . import authentication_bp as auth_bp
 from utils.web import request_wants_json
 from ..users.models import User
+from ..users.schema import UserSchema
 
 
 bad_creds = {
@@ -24,6 +25,7 @@ unauthorized = {
               "path": "/api/account",
               "message": "error.http.401"
             }
+
 
 @auth_bp.route('/authenticate', methods=['POST'])
 def authenticate():
@@ -58,12 +60,13 @@ def register_user():
     """Register a new user."""
     if not request_wants_json():
         raise NotAcceptable()
-    data = request.get_json()
-    print(data)
-    lang_key = data.get('langKey', 'en')
-    u = User(data.get('login'), data.get('password'), "", "", data.get('email'), lang_key=lang_key)
-    u.save()
-    return '', 201
+    try:
+        user = UserSchema().load(request.json)
+    except ValueError as e:
+        raise InternalServerError
+    else:
+        user.save()
+        return '', 201
 
 
 # TODO: dump using Flask-Marshmallow
