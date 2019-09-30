@@ -59,6 +59,24 @@ def create_app(config_name='default'):
     from .users import users_bp
     app.register_blueprint(users_bp, url_prefix="/users")
 
+    from .entities import BankAccountItemsApi
+    app.add_url_rule("/api/bank-accounts/<int:entity>", view_func=BankAccountItemsApi.as_view("account_items_api"))
+
+    from .entities import BankAccountsApi
+    app.add_url_rule("/api/bank-accounts", view_func=BankAccountsApi.as_view("accounts_api"))
+
+    from .entities import OperationItemsApi
+    app.add_url_rule("/api/operations/<int:entity>", view_func=OperationItemsApi.as_view("operation_items_api"))
+
+    from .entities import OperationsApi
+    app.add_url_rule("/api/operations", view_func=OperationsApi.as_view("operations_api"))
+
+    from .entities import LabelItemsApi
+    app.add_url_rule("/api/labels/<int:entity>", view_func=LabelItemsApi.as_view("label_items_api"))
+
+    from .entities import LabelsApi
+    app.add_url_rule("/api/labels", view_func=LabelsApi.as_view("labels_api"))
+
     from .authenticate import authentication_bp
     app.register_blueprint(authentication_bp, url_prefix="/api")
 
