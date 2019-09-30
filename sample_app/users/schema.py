@@ -1,10 +1,11 @@
-from marshmallow import post_load
+from marshmallow import pre_load, post_load
 
 from sample_app import ma     # flask-marshmallow
+from utils.schema import JavaScriptMixin
 from .models import User, UserAuthority  # SQLAlchemy model
 
 
-class UserSchema(ma.ModelSchema):
+class UserSchema(ma.ModelSchema, JavaScriptMixin):
     class Meta:
         model = User
         strict = True
@@ -15,17 +16,9 @@ class UserSchema(ma.ModelSchema):
         {"self": ma.URLFor("users.get_one", user_id="<uid>"), "collection": ma.URLFor("users.get_all")}
     )
 
-    @post_load
-    def make_user(self, data, **kwargs):
-        return User(**data)
 
-
-class UserAuthoritySchema(ma.ModelSchema):
+class UserAuthoritySchema(ma.ModelSchema, JavaScriptMixin):
     class Meta:
         model = UserAuthority
         strict = True
         only = ('name',)
-
-    @post_load
-    def make_user_authority(self, data, **kwargs):
-        return UserAuthority(**data)

@@ -1,16 +1,15 @@
 from sample_app import ma
-from marshmallow import post_load
-
+from utils.schema import JavaScriptMixin
 from .models import BankAccount, Operation, Label
 from ..users.schema import UserSchema
 
 
-class OperationSchema(ma.ModelSchema):
+class OperationSchema(ma.ModelSchema, JavaScriptMixin):
     class Meta:
         model = Operation
 
 
-class LabelSchema(ma.ModelSchema):
+class LabelSchema(ma.ModelSchema, JavaScriptMixin):
     class Meta:
         model = Label
         # FIXME: make `id` read-only, schema -> ValueType object
@@ -22,7 +21,7 @@ class LabelSchema(ma.ModelSchema):
     )
 
 
-class BankAccountSchema(ma.ModelSchema):
+class BankAccountSchema(ma.ModelSchema, JavaScriptMixin):
     class Meta:
         model = BankAccount
         fields = ('balance', 'id', 'name', 'operations', 'user', '_links')
@@ -34,7 +33,3 @@ class BankAccountSchema(ma.ModelSchema):
     _links = ma.Hyperlinks(
         {"self": ma.URLFor("account_items_api", entity="<id>"), "collection": ma.URLFor("accounts_api")}
     )
-
-    @post_load
-    def make_account(self, data, **kwargs):
-        return BankAccount(**data)
