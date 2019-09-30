@@ -8,11 +8,16 @@ class UserSchema(ma.ModelSchema):
     class Meta:
         model = User
         strict = True
-        only = ('login', 'password', 'first_name', 'last_name', 'email', 'activated', 'lang_key')
+        only = ('login', 'password', 'first_name', 'last_name', 'email', 'activated', 'lang_key', '_links')
+
+    # Smart hyperlinking
+    _links = ma.Hyperlinks(
+        {"self": ma.URLFor("users.get_one", user_id="<uid>"), "collection": ma.URLFor("users.get_all")}
+    )
 
     @post_load
-    def make_place(self, data):
-        return User()
+    def make_user(self, data, **kwargs):
+        return User(**data)
 
 
 class UserAuthoritySchema(ma.ModelSchema):
@@ -22,5 +27,5 @@ class UserAuthoritySchema(ma.ModelSchema):
         only = ('name',)
 
     @post_load
-    def make_place(self, data):
-        return User()
+    def make_user_authority(self, data, **kwargs):
+        return UserAuthority(**data)
