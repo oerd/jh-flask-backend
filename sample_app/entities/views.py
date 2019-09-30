@@ -58,7 +58,7 @@ class BankAccountItemsApi(MethodView):
 class BaseApi(MethodView):
     """ Example of a class inheriting from flask.views.MethodView
 
-    All 5 request methods are available at /api/example/<entity>
+    All 3 request methods are available at /api/example
     """
     def __init__(self, **kwargs):
         super(BaseApi, self).__init__(**kwargs)
@@ -85,7 +85,9 @@ class BaseApi(MethodView):
 
 
 class BaseItemsApi(MethodView):
+    """ Base class to handle item APIs
 
+     treat `/api/entity/<int:entity_id>`-style URLs """
     def __init__(self, **kwargs):
         super(BaseItemsApi, self).__init__(**kwargs)
 
@@ -107,7 +109,7 @@ class LabelsApi(BaseApi):
     Schema = LabelSchema
 
 
-class LabelItemsApi(BaseApi):
+class LabelItemsApi(BaseItemsApi):
     Model = Label
     Schema = LabelSchema
 
@@ -117,6 +119,6 @@ class OperationsApi(BaseApi):
     Schema = OperationSchema
 
 
-class OperationItemsApi(BaseApi):
+class OperationItemsApi(BaseItemsApi):
     Model = Operation
     Schema = OperationSchema
