@@ -1,12 +1,12 @@
-"""create users, authorities, and insert fixtures
+"""Initial version, users/roles/authorities
 
 Revision ID: 0977376016cc
 Revises:
-Create Date: 2019-06-21 17:48:40.745230
+Create Date: 2019-09-30 01:36:17.326790
 
 """
-from alembic import op
 import sqlalchemy as sa
+from alembic import op
 
 # revision identifiers, used by Alembic.
 revision = '0977376016cc'
@@ -22,9 +22,8 @@ def upgrade():
                                     sa.Column('name', sa.String(length=50), nullable=False),
                                     sa.PrimaryKeyConstraint('id', 'name')
                                     )
-
     jhi_user = op.create_table('jhi_user',
-                               sa.Column('uid', sa.Integer(), nullable=False, primary_key=True),
+                               sa.Column('uid', sa.Integer(), nullable=False),
                                sa.Column('login', sa.String(length=50), nullable=False),
                                sa.Column('password_hash', sa.String(length=60), nullable=True),
                                sa.Column('first_name', sa.String(length=50), nullable=True),
@@ -40,14 +39,14 @@ def upgrade():
                                sa.Column('reset_date', sa.DateTime(), nullable=True),
                                sa.Column('last_modified_by', sa.String(length=50), nullable=True),
                                sa.Column('last_modified_date', sa.DateTime(), nullable=True),
+                               sa.PrimaryKeyConstraint('uid'),
                                sa.UniqueConstraint('login')
                                )
-
     jhi_user_authority = op.create_table('jhi_user_authority',
-                                         sa.Column('user_id', sa.BigInteger(), nullable=False),
+                                         sa.Column('user_id', sa.Integer(), nullable=False),
                                          sa.Column('authority_name', sa.String(length=50), nullable=False),
-                                         sa.ForeignKeyConstraint(('authority_name',), ['jhi_authority.name'], ),
-                                         sa.ForeignKeyConstraint(('user_id',), ['jhi_user.uid'], ),
+                                         sa.ForeignKeyConstraint(['authority_name'], ['jhi_authority.name'], ),
+                                         sa.ForeignKeyConstraint(['user_id'], ['jhi_user.uid'], ),
                                          sa.PrimaryKeyConstraint('user_id', 'authority_name')
                                          )
 
@@ -114,7 +113,6 @@ def upgrade():
         {'user_id': 3, 'authority_name': 'ROLE_USER'},
         {'user_id': 4, 'authority_name': 'ROLE_USER'}
     ])
-
     # ### end Alembic commands ###
 
 
