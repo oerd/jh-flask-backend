@@ -66,6 +66,7 @@ def register_user():
     return '', 201
 
 
+# TODO: dump using Flask-Marshmallow
 @auth_bp.route('/account')
 @jwt_required
 def get_account():
