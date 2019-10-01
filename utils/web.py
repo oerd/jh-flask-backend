@@ -6,7 +6,7 @@ import logging
 
 from flask.views import MethodView
 from marshmallow import ValidationError
-from werkzeug.exceptions import InternalServerError
+from werkzeug.exceptions import InternalServerError, NotImplemented
 
 logger = logging.getLogger('sample_app')
 
@@ -43,10 +43,6 @@ class BaseApi(MethodView):
             item.save()
             return self.Schema().jsonify(item), 200
 
-    def put(self, entity):
-        """ updateEntity() """
-        return "Responding to a PUT request"
-
 
 class BaseItemsApi(MethodView):
     """ Base class to handle item APIs
@@ -59,6 +55,14 @@ class BaseItemsApi(MethodView):
         """ getEntity() """
         result = self.Model.query.get_or_404(entity)
         return self.schema.jsonify(result), 200
+
+    def put(self, entity):
+        """ updateEntity() """
+        raise NotImplemented
+
+    def patch(self, entity):
+        """ updateEntity() """
+        raise NotImplemented
 
     def delete(self, entity):
         """ deleteEntity() """
