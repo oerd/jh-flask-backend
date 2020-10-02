@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_marshmallow import Marshmallow
@@ -79,6 +79,11 @@ def create_app(config_name='default'):
 
     from .authenticate import authentication_bp
     app.register_blueprint(authentication_bp, url_prefix="/api")
+
+    # a heartbeat, is very comfortable to have
+    @app.route("/heartbeat")
+    def heartbeat():
+        return jsonify({"status": "healthy"})
 
     # a default page that says hello with name
     @app.route('/hi/<name>')
