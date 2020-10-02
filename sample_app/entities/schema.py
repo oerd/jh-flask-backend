@@ -4,12 +4,12 @@ from .models import BankAccount, Operation, Label
 from ..users.schema import UserSchema
 
 
-class OperationSchema(ma.ModelSchema, JavaScriptMixin):
+class OperationSchema(ma.SQLAlchemyAutoSchema, JavaScriptMixin):
     class Meta:
         model = Operation
 
 
-class LabelSchema(ma.ModelSchema, JavaScriptMixin):
+class LabelSchema(ma.SQLAlchemyAutoSchema, JavaScriptMixin):
     class Meta:
         model = Label
         # FIXME: make `id` read-only, schema -> ValueType object
@@ -21,7 +21,7 @@ class LabelSchema(ma.ModelSchema, JavaScriptMixin):
     )
 
 
-class BankAccountSchema(ma.ModelSchema, JavaScriptMixin):
+class BankAccountSchema(ma.SQLAlchemyAutoSchema, JavaScriptMixin):
     class Meta:
         model = BankAccount
         fields = ('balance', 'id', 'name', 'operations', 'user', '_links')

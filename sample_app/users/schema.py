@@ -1,11 +1,11 @@
 from marshmallow import pre_load, post_load
 
-from sample_app import ma     # flask-marshmallow
+from sample_app import ma                # flask-marshmallow
 from utils.schema import JavaScriptMixin
 from .models import User, UserAuthority  # SQLAlchemy model
 
 
-class UserSchema(ma.ModelSchema, JavaScriptMixin):
+class UserSchema(ma.SQLAlchemyAutoSchema, JavaScriptMixin):
     class Meta:
         model = User
         strict = True
@@ -17,7 +17,7 @@ class UserSchema(ma.ModelSchema, JavaScriptMixin):
     )
 
 
-class UserAuthoritySchema(ma.ModelSchema, JavaScriptMixin):
+class UserAuthoritySchema(ma.SQLAlchemyAutoSchema, JavaScriptMixin):
     class Meta:
         model = UserAuthority
         strict = True
